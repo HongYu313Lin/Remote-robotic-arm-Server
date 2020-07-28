@@ -5,6 +5,10 @@ using System.Windows.Forms;
 
 namespace TCPIPServer
 {
+    /// <summary>
+    /// 作者:林紘宇
+    /// 正在國立高雄科技大學工程科技研究所攻讀博士學位
+    /// </summary>
     static class Program
     {
         /// <summary>
