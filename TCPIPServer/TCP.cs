@@ -89,6 +89,7 @@ namespace TCPIPServer
                 //throw;
             }
             Stopwatch sw = new Stopwatch();
+            
             sw.Start();
             while (true)
             {
@@ -109,7 +110,7 @@ namespace TCPIPServer
                     {
                         sw.Restart();
                         byte[] myBufferBytes = new byte[mySocket.Available];
-
+                        
                         int dataLength = mySocket.Receive(myBufferBytes); //取得用戶端寫入的資料
                         
                         XYZrobot.XYZrobot.Button temp = XYZrobot.XYZrobot.Button.Ping;
@@ -124,17 +125,20 @@ namespace TCPIPServer
                         robotarm.btn = temp;
                         
                        
-                        this.Invoke(new EventHandler(delegate { 
+                        this.Invoke(new EventHandler(delegate {
+                            if (textmessage.Text.Length>100)
+                            {
+                                int ed = textmessage.Text.IndexOf('\n',50);
+                                textmessage.Text = textmessage.Text.Remove(0, ed);
 
-                        textmessage.Text += Environment.NewLine + System.DateTime.Now.ToString() + Environment.NewLine + "接收到的資料長度 = " + dataLength.ToString();
+                            } 
 
-                        textmessage.Text += Environment.NewLine + "取出用戶端寫入網路資料流的資料內容" + Environment.NewLine + Encoding.ASCII.GetString(myBufferBytes, 0, dataLength);
-
-                        textmessage.AppendText("..." + "\r\n");
-
-                        
+                            textmessage.Text += Environment.NewLine + System.DateTime.Now.ToString() + Environment.NewLine + "接收到的資料長度 = " + dataLength.ToString();
+                            textmessage.Text += Environment.NewLine + "取出用戶端寫入網路資料流的資料內容" + Environment.NewLine + string.Join(" ", myBufferBytes);
+                            textmessage.AppendText("..." + "\r\n");
                         }));
                         mySocket.Send(myBufferBytes, myBufferBytes.Length, 0);//將接收到的資料回傳給用戶端(Clinet)
+                        myBufferBytes = null;
                     }
                 }
                 catch (System.Net.Sockets.SocketException eh)

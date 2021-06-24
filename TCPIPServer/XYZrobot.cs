@@ -156,7 +156,7 @@ namespace XYZrobot
         {
             try
             {
-                serialPort1.PortName = "COM18";
+                serialPort1.PortName = "COM11";
                 serialPort1.BaudRate = 9600;
                 serialPort1.Open();
             }
@@ -356,6 +356,11 @@ namespace XYZrobot
                 }
                 Thread.Sleep(10);
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
